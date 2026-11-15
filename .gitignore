@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 flagged/
 .DS_Store
+node_modules/
+live_space.png

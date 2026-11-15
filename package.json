@@ -1,0 +1,12 @@
+{
+  "name": "credit-default-risk-space",
+  "private": true,
+  "type": "module",
+  "description": "Static Hugging Face Space that scores credit default risk in the browser.",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

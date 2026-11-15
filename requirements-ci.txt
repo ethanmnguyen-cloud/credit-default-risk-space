@@ -1,0 +1,2 @@
+# Only for the CI browser checks. The Space itself needs no Python at all.
+playwright==1.65.2

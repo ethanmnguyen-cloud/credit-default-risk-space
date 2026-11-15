@@ -3,10 +3,8 @@ title: Credit Default Risk
 emoji: 💳
 colorFrom: blue
 colorTo: green
-sdk: gradio
-sdk_version: 6.32.0
-python_version: "3.12"
-app_file: app.py
+sdk: static
+app_file: index.html
 pinned: false
 license: mit
 short_description: Logistic regression for credit card default (course project)
@@ -14,7 +12,7 @@ short_description: Logistic regression for credit card default (course project)
 
 # Credit Default Risk
 
-A small web app that estimates the chance a credit card client misses next month's
+A small web page that estimates the chance a credit card client misses next month's
 payment. It serves the logistic regression evaluated in the Module 8 assignment of
 AAI 6610 Machine Learning at Northeastern University.
 
@@ -30,18 +28,21 @@ real people.
 | Training data | 23,972 clients, UCI Default of Credit Card Clients (Taiwan, 2005) |
 | Held-out test (5,993 clients) | accuracy 0.749, precision 0.452, recall 0.624, F1 0.524, ROC-AUC 0.771 |
 
-The fitted model is stored as plain numbers in `model/model.json` and computed with
-NumPy, so the app needs no scikit-learn and loads no pickled code.
+The fitted model is stored as plain numbers in `model/model.json`. `credit_model.js`
+repeats the training steps and computes the score in the visitor's browser, so the
+Space is a free static site with no server, and nothing typed into the form leaves
+the browser.
 
 ## How it stays correct
 
-Every push to `main` on GitHub runs the tests before anything is deployed:
+Every push to `main` on GitHub runs the checks before anything is deployed:
 
-1. **Test.** `tests/test_model.py` scores the raw records of all 5,993 test clients and
+1. **Test.** `tests/model.test.js` scores the raw records of all 5,993 test clients and
    requires the same probabilities the evaluated scikit-learn model gave (within 1e-9).
-2. **Deploy.** The `huggingface/hub-sync` action uploads the app to this Space.
-3. **Smoke test.** `scripts/smoke_test.py` waits for the Space to restart, calls its
-   `/score` API, and checks the live answer.
+   `scripts/browser_check.py` then opens the page in a real browser and checks it.
+2. **Deploy.** The `huggingface/hub-sync` action uploads the page to this Space.
+3. **Smoke test.** `scripts/smoke_test.py` waits until the live Space serves this exact
+   commit, then runs the same browser check against it.
 
 ## Data
 

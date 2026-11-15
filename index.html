@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Credit Default Risk</title>
+  <meta name="description" content="Logistic regression that estimates the chance a credit card client misses next month's payment. A course project, not a lending tool.">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Credit Default Risk</h1>
+      <p>Estimate the chance that a credit card client misses next month's payment.
+        Amounts are in New Taiwan dollars. Everything runs in your browser. Nothing you
+        type is sent anywhere.</p>
+      <p class="warning"><strong>A course project, not a lending tool.</strong>
+        Do not use it to make decisions about real people.</p>
+    </header>
+
+    <form id="client-form" novalidate>
+      <div class="grid">
+        <fieldset>
+          <legend>Client</legend>
+          <label>Credit limit <input id="LIMIT_BAL" name="LIMIT_BAL" type="number" min="1" step="any" value="200000" required></label>
+          <label>Age <input id="AGE" name="AGE" type="number" min="18" max="100" step="1" value="35" required></label>
+          <label>Sex <select id="SEX" name="SEX"></select></label>
+          <label>Education <select id="EDUCATION" name="EDUCATION"></select></label>
+          <label>Marital status <select id="MARRIAGE" name="MARRIAGE"></select></label>
+        </fieldset>
+        <fieldset id="status-fields"><legend>Repayment status by month</legend></fieldset>
+        <fieldset id="bill-fields"><legend>Bill amount by month</legend></fieldset>
+        <fieldset id="payment-fields"><legend>Payment amount by month</legend></fieldset>
+      </div>
+      <div class="actions">
+        <span id="example-buttons"></span>
+        <button id="estimate" type="submit" class="primary" disabled>Estimate risk</button>
+      </div>
+    </form>
+
+    <section id="result" aria-live="polite">
+      <p id="loading">Loading the model...</p>
+    </section>
+
+    <details id="about">
+      <summary>About this model</summary>
+      <div id="model-card"></div>
+    </details>
+
+    <footer>
+      Data: Yeh, I.-C. (2009). <em>Default of credit card clients</em> [Data set]. UCI Machine
+      Learning Repository. <a href="https://doi.org/10.24432/C55S3H">https://doi.org/10.24432/C55S3H</a>
+      (CC BY 4.0). AAI 6610 Machine Learning, Northeastern University.
+    </footer>
+  </main>
+</body>
+</html>
