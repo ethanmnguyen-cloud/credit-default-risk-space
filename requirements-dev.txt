@@ -1,0 +1,7 @@
+# For CI and local testing. Keep gradio equal to sdk_version in README.md
+# (tests/test_config.py checks this).
+-r requirements.txt
+gradio==6.32.0
+gradio_client==2.7.2
+huggingface_hub==2.4.0
+pytest==9.2.0

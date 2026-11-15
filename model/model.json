@@ -1,0 +1,668 @@
+{
+  "format_version": 1,
+  "inputs": {
+    "raw_columns": [
+      "LIMIT_BAL",
+      "SEX",
+      "EDUCATION",
+      "MARRIAGE",
+      "AGE",
+      "PAY_0",
+      "PAY_2",
+      "PAY_3",
+      "PAY_4",
+      "PAY_5",
+      "PAY_6",
+      "BILL_AMT1",
+      "BILL_AMT2",
+      "BILL_AMT3",
+      "BILL_AMT4",
+      "BILL_AMT5",
+      "BILL_AMT6",
+      "PAY_AMT1",
+      "PAY_AMT2",
+      "PAY_AMT3",
+      "PAY_AMT4",
+      "PAY_AMT5",
+      "PAY_AMT6"
+    ],
+    "codes": {
+      "SEX": {
+        "1": "male",
+        "2": "female"
+      },
+      "EDUCATION": {
+        "1": "graduate school",
+        "2": "university",
+        "3": "high school",
+        "4": "other",
+        "0": "undocumented",
+        "5": "unknown",
+        "6": "unknown"
+      },
+      "MARRIAGE": {
+        "1": "married",
+        "2": "single",
+        "3": "other",
+        "0": "undocumented"
+      },
+      "PAY_0": {
+        "-2": "no consumption",
+        "-1": "paid in full",
+        "0": "revolving credit (on time)",
+        "1": "payment delay of 1 month",
+        "2": "payment delay of 2 months",
+        "3": "payment delay of 3 months",
+        "4": "payment delay of 4 months",
+        "5": "payment delay of 5 months",
+        "6": "payment delay of 6 months",
+        "7": "payment delay of 7 months",
+        "8": "payment delay of 8 months",
+        "9": "payment delay of 9 or more months"
+      },
+      "PAY_2": {
+        "-2": "no consumption",
+        "-1": "paid in full",
+        "0": "revolving credit (on time)",
+        "1": "payment delay of 1 month",
+        "2": "payment delay of 2 months",
+        "3": "payment delay of 3 months",
+        "4": "payment delay of 4 months",
+        "5": "payment delay of 5 months",
+        "6": "payment delay of 6 months",
+        "7": "payment delay of 7 months",
+        "8": "payment delay of 8 months",
+        "9": "payment delay of 9 or more months"
+      },
+      "PAY_3": {
+        "-2": "no consumption",
+        "-1": "paid in full",
+        "0": "revolving credit (on time)",
+        "1": "payment delay of 1 month",
+        "2": "payment delay of 2 months",
+        "3": "payment delay of 3 months",
+        "4": "payment delay of 4 months",
+        "5": "payment delay of 5 months",
+        "6": "payment delay of 6 months",
+        "7": "payment delay of 7 months",
+        "8": "payment delay of 8 months",
+        "9": "payment delay of 9 or more months"
+      },
+      "PAY_4": {
+        "-2": "no consumption",
+        "-1": "paid in full",
+        "0": "revolving credit (on time)",
+        "1": "payment delay of 1 month",
+        "2": "payment delay of 2 months",
+        "3": "payment delay of 3 months",
+        "4": "payment delay of 4 months",
+        "5": "payment delay of 5 months",
+        "6": "payment delay of 6 months",
+        "7": "payment delay of 7 months",
+        "8": "payment delay of 8 months",
+        "9": "payment delay of 9 or more months"
+      },
+      "PAY_5": {
+        "-2": "no consumption",
+        "-1": "paid in full",
+        "0": "revolving credit (on time)",
+        "1": "payment delay of 1 month",
+        "2": "payment delay of 2 months",
+        "3": "payment delay of 3 months",
+        "4": "payment delay of 4 months",
+        "5": "payment delay of 5 months",
+        "6": "payment delay of 6 months",
+        "7": "payment delay of 7 months",
+        "8": "payment delay of 8 months",
+        "9": "payment delay of 9 or more months"
+      },
+      "PAY_6": {
+        "-2": "no consumption",
+        "-1": "paid in full",
+        "0": "revolving credit (on time)",
+        "1": "payment delay of 1 month",
+        "2": "payment delay of 2 months",
+        "3": "payment delay of 3 months",
+        "4": "payment delay of 4 months",
+        "5": "payment delay of 5 months",
+        "6": "payment delay of 6 months",
+        "7": "payment delay of 7 months",
+        "8": "payment delay of 8 months",
+        "9": "payment delay of 9 or more months"
+      }
+    },
+    "money_columns": [
+      "LIMIT_BAL",
+      "BILL_AMT1",
+      "BILL_AMT2",
+      "BILL_AMT3",
+      "BILL_AMT4",
+      "BILL_AMT5",
+      "BILL_AMT6",
+      "PAY_AMT1",
+      "PAY_AMT2",
+      "PAY_AMT3",
+      "PAY_AMT4",
+      "PAY_AMT5",
+      "PAY_AMT6"
+    ],
+    "units": "New Taiwan dollars",
+    "source": "Yeh (2009), UCI Machine Learning Repository, https://doi.org/10.24432/C55S3H"
+  },
+  "protocol": {
+    "name": "2.6 EDA report protocol",
+    "rename": {
+      "PAY_0": "PAY_1"
+    },
+    "recode": {
+      "EDUCATION": {
+        "codes": [
+          "0",
+          "5",
+          "6"
+        ],
+        "into": "4"
+      },
+      "MARRIAGE": {
+        "codes": [
+          "0"
+        ],
+        "into": "3"
+      }
+    },
+    "features": [
+      {
+        "name": "UTILIZATION",
+        "kind": "ratio",
+        "numerator": "BILL_AMT1",
+        "denominator": "LIMIT_BAL",
+        "description": "September bill divided by the credit limit"
+      },
+      {
+        "name": "PAY_RATIO",
+        "kind": "ratio",
+        "numerator": "PAY_AMT1",
+        "denominator": "BILL_AMT2",
+        "when_not_positive": 1.0,
+        "description": "September payment divided by the August bill, 1.0 when nothing was owed"
+      },
+      {
+        "name": "MONTHS_LATE",
+        "kind": "count_at_least",
+        "columns": [
+          "PAY_1",
+          "PAY_2",
+          "PAY_3",
+          "PAY_4",
+          "PAY_5",
+          "PAY_6"
+        ],
+        "threshold": 1,
+        "description": "number of months (of six) the client was behind"
+      }
+    ],
+    "nominal_columns": [
+      "SEX",
+      "EDUCATION",
+      "MARRIAGE",
+      "PAY_1",
+      "PAY_2",
+      "PAY_3",
+      "PAY_4",
+      "PAY_5",
+      "PAY_6"
+    ]
+  },
+  "preprocessing": [
+    {
+      "name": "num",
+      "kind": "numeric",
+      "columns": [
+        "AGE",
+        "UTILIZATION"
+      ],
+      "signed_log": false,
+      "medians": [
+        34.0,
+        0.3198873303167421
+      ],
+      "means": [
+        35.46224762222593,
+        0.4256195279235234
+      ],
+      "scales": [
+        9.196378110584247,
+        0.4124784925423341
+      ]
+    },
+    {
+      "name": "log",
+      "kind": "numeric",
+      "columns": [
+        "PAY_RATIO",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT1",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6",
+        "BILL_AMT3",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "BILL_AMT4",
+        "BILL_AMT2",
+        "BILL_AMT1",
+        "MONTHS_LATE",
+        "LIMIT_BAL"
+      ],
+      "signed_log": true,
+      "medians": [
+        0.1005703601950145,
+        2010.0,
+        1815.5,
+        2100.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        20266.5,
+        18219.5,
+        17135.0,
+        19194.0,
+        21545.0,
+        22587.0,
+        0.0,
+        140000.0
+      ],
+      "means": [
+        0.29711218532072425,
+        6.571036665698093,
+        6.293524124172,
+        6.636189962089183,
+        6.078943711016908,
+        6.03968119793217,
+        5.940230823316057,
+        8.621545082751688,
+        8.296544874825289,
+        8.075379790113947,
+        8.469390058902567,
+        8.7615559534457,
+        8.962302598941504,
+        0.38064222902630235,
+        11.660364549535428
+      ],
+      "scales": [
+        0.3194644659698857,
+        3.268660666945113,
+        3.342827985758064,
+        3.2442190489337075,
+        3.3974878829890787,
+        3.4391363315596624,
+        3.522591064946822,
+        3.900824476889591,
+        4.050648018050798,
+        4.226631004941936,
+        3.9782885215473542,
+        3.777692791097154,
+        3.54234776487246,
+        0.5991242006041307,
+        0.943252793609362
+      ]
+    },
+    {
+      "name": "nom",
+      "kind": "one_hot",
+      "columns": [
+        "SEX",
+        "EDUCATION",
+        "MARRIAGE",
+        "PAY_1",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6"
+      ],
+      "categories": [
+        [
+          "1",
+          "2"
+        ],
+        [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        [
+          "1",
+          "2",
+          "3"
+        ],
+        [
+          "-1",
+          "-2",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        [
+          "-1",
+          "-2",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        [
+          "-1",
+          "-2",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        [
+          "-1",
+          "-2",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        [
+          "-1",
+          "-2",
+          "0",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        [
+          "-1",
+          "-2",
+          "0",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ]
+      ]
+    }
+  ],
+  "model": {
+    "kind": "logistic_regression",
+    "feature_names": [
+      "num__AGE",
+      "num__UTILIZATION",
+      "log__PAY_RATIO",
+      "log__PAY_AMT2",
+      "log__PAY_AMT3",
+      "log__PAY_AMT1",
+      "log__PAY_AMT4",
+      "log__PAY_AMT5",
+      "log__PAY_AMT6",
+      "log__BILL_AMT3",
+      "log__BILL_AMT5",
+      "log__BILL_AMT6",
+      "log__BILL_AMT4",
+      "log__BILL_AMT2",
+      "log__BILL_AMT1",
+      "log__MONTHS_LATE",
+      "log__LIMIT_BAL",
+      "nom__SEX_1",
+      "nom__SEX_2",
+      "nom__EDUCATION_1",
+      "nom__EDUCATION_2",
+      "nom__EDUCATION_3",
+      "nom__EDUCATION_4",
+      "nom__MARRIAGE_1",
+      "nom__MARRIAGE_2",
+      "nom__MARRIAGE_3",
+      "nom__PAY_1_-1",
+      "nom__PAY_1_-2",
+      "nom__PAY_1_0",
+      "nom__PAY_1_1",
+      "nom__PAY_1_2",
+      "nom__PAY_1_3",
+      "nom__PAY_1_4",
+      "nom__PAY_1_5",
+      "nom__PAY_1_6",
+      "nom__PAY_1_7",
+      "nom__PAY_1_8",
+      "nom__PAY_2_-1",
+      "nom__PAY_2_-2",
+      "nom__PAY_2_0",
+      "nom__PAY_2_1",
+      "nom__PAY_2_2",
+      "nom__PAY_2_3",
+      "nom__PAY_2_4",
+      "nom__PAY_2_5",
+      "nom__PAY_2_6",
+      "nom__PAY_2_7",
+      "nom__PAY_3_-1",
+      "nom__PAY_3_-2",
+      "nom__PAY_3_0",
+      "nom__PAY_3_1",
+      "nom__PAY_3_2",
+      "nom__PAY_3_3",
+      "nom__PAY_3_4",
+      "nom__PAY_3_5",
+      "nom__PAY_3_6",
+      "nom__PAY_3_7",
+      "nom__PAY_3_8",
+      "nom__PAY_4_-1",
+      "nom__PAY_4_-2",
+      "nom__PAY_4_0",
+      "nom__PAY_4_1",
+      "nom__PAY_4_2",
+      "nom__PAY_4_3",
+      "nom__PAY_4_4",
+      "nom__PAY_4_5",
+      "nom__PAY_4_6",
+      "nom__PAY_4_7",
+      "nom__PAY_4_8",
+      "nom__PAY_5_-1",
+      "nom__PAY_5_-2",
+      "nom__PAY_5_0",
+      "nom__PAY_5_2",
+      "nom__PAY_5_3",
+      "nom__PAY_5_4",
+      "nom__PAY_5_5",
+      "nom__PAY_5_6",
+      "nom__PAY_5_7",
+      "nom__PAY_5_8",
+      "nom__PAY_6_-1",
+      "nom__PAY_6_-2",
+      "nom__PAY_6_0",
+      "nom__PAY_6_2",
+      "nom__PAY_6_3",
+      "nom__PAY_6_4",
+      "nom__PAY_6_5",
+      "nom__PAY_6_6",
+      "nom__PAY_6_7",
+      "nom__PAY_6_8"
+    ],
+    "coefficients": [
+      0.027316798649116826,
+      0.19188137183903708,
+      -0.0960952034643815,
+      -0.13983415617185235,
+      -0.15103887898936585,
+      -0.17551036861839978,
+      -0.07337069793202915,
+      -0.07021818831259397,
+      -0.048245104687993166,
+      0.07631773431568425,
+      -0.057066757968292886,
+      0.06320740143298503,
+      0.07488556863532088,
+      0.03413587868045352,
+      -0.15160062409322764,
+      0.4541448904652663,
+      -0.15002627738815638,
+      -0.020695783920825543,
+      -0.13164327140485832,
+      0.16190335753879975,
+      0.21153127741877983,
+      0.10877394153800914,
+      -0.6345476318212729,
+      0.02527196757766743,
+      -0.12947347608558812,
+      -0.04813754681776322,
+      -0.15447372152035124,
+      -0.24466758143253448,
+      -0.7206234557443606,
+      -0.48680831834122074,
+      1.060280694187217,
+      0.6712356081498422,
+      0.21706195241310763,
+      -0.2013090268046481,
+      -0.10088402748702602,
+      -0.011703184450963954,
+      -0.1804479942947405,
+      0.21572847213800758,
+      0.09134388446454432,
+      0.2570319286558786,
+      -0.02962380060066541,
+      0.06032042385815693,
+      0.01129211266326896,
+      -0.5330169123667768,
+      -0.09975758790473455,
+      0.033817726784516396,
+      -0.1594753030178829,
+      0.0860248754981008,
+      0.06732241905743977,
+      0.0946146840151858,
+      0.016410246605401944,
+      0.11356604450577536,
+      0.009079980776351682,
+      -0.13796182389802855,
+      -0.12887160699811323,
+      -0.19877905762441403,
+      -0.05500595776613231,
+      -0.018738859497251948,
+      0.11272564777479337,
+      0.1189070239122015,
+      0.13094043196829172,
+      0.03891851355040459,
+      0.07897815798933357,
+      -0.08993178714572177,
+      0.14752691718862912,
+      -0.4533648305544195,
+      -0.07250180082409877,
+      -0.1293477266287888,
+      -0.03518960255630909,
+      0.037131499107897425,
+      -0.06187014979592351,
+      0.041610577098296915,
+      0.11461067315969471,
+      0.032594876113507316,
+      -0.17996481350385873,
+      -0.043781468028498916,
+      -0.020787010187604805,
+      -0.07604652538344164,
+      0.004163286094247148,
+      0.04939546036348043,
+      -0.09062750002375769,
+      -0.09562310486778884,
+      -0.07371127913713056,
+      0.1088680313196117,
+      -0.0362782566241691,
+      -0.015466036797626773,
+      0.10119568449657379,
+      -0.10425534014912459,
+      0.004163286094247148
+    ],
+    "intercept": -0.27879931764765853,
+    "threshold": 0.5,
+    "settings": {
+      "C": 0.1,
+      "class_weight": "balanced",
+      "max_iter": 2000
+    }
+  },
+  "provenance": {
+    "exported": "2026-11-15T17:02:14",
+    "model_run": "model_default_of_credit_card_clients_2026-10-01_110509_2026-10-01_111004",
+    "cleanse_run": "default_of_credit_card_clients_2026-10-01_110509",
+    "cleaned_sha256": "e72f44d84c44fd2359efe266a366cdb042130de94d2fae53f412a9fbf87db32e",
+    "sklearn_version": "1.9.1",
+    "pipeline_version": "0.1.0",
+    "max_abs_diff_sklearn": 0.0
+  },
+  "evaluation": {
+    "test": {
+      "accuracy": 0.7493742699816452,
+      "precision": 0.45191256830601095,
+      "recall": 0.6236802413273002,
+      "f1": 0.5240811153358682,
+      "roc_auc": 0.7708153360732799,
+      "confusion": {
+        "tn": 3664,
+        "fp": 1003,
+        "fn": 499,
+        "tp": 827
+      },
+      "n": 5993
+    },
+    "test_note": "5,993 held-out clients, scored once in the final project (October 2026).",
+    "cv": {
+      "accuracy": {
+        "mean": 0.7542545491562055,
+        "sd": 0.005964210919830882
+      },
+      "precision": {
+        "mean": 0.4600139491265233,
+        "sd": 0.009021670835777696
+      },
+      "recall": {
+        "mean": 0.6336725766009284,
+        "sd": 0.006659215312680195
+      },
+      "f1": {
+        "mean": 0.5329949332788,
+        "sd": 0.006657388743660488
+      },
+      "roc_auc": {
+        "mean": 0.7805024165464183,
+        "sd": 0.008629115883106452
+      },
+      "average_precision": {
+        "mean": 0.543398091899556,
+        "sd": 0.010355050121581192
+      },
+      "fit_seconds": {
+        "mean": 0.23515281677246094,
+        "sd": 0.044362319420879384
+      }
+    },
+    "cv_note": "Five-fold cross-validation on 23,972 training clients (Module 8 study)."
+  }
+}
