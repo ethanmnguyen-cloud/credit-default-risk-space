@@ -13,18 +13,23 @@ function element(tag, attrs = {}, text) {
   return node;
 }
 
+// JavaScript reorders number-like object keys (0..9 first, then "-2", "-1"), so sort
+// the codes as numbers to show them in their natural order.
+const sortedCodes = (codes) => Object.keys(codes).sort((a, b) => Number(a) - Number(b));
+
 function fillSelect(select, codes, value) {
-  for (const [code, text] of Object.entries(codes)) {
-    select.append(element("option", { value: code }, `${code}: ${text}`));
+  for (const code of sortedCodes(codes)) {
+    select.append(element("option", { value: code }, `${code}: ${codes[code]}`));
   }
   select.value = String(value);
 }
 
 function buildForm(model) {
   const codes = model.codes;
-  fillSelect($("SEX"), codes.SEX, Object.keys(codes.SEX)[0]);
-  fillSelect($("EDUCATION"), codes.EDUCATION, Object.keys(codes.EDUCATION)[0]);
-  fillSelect($("MARRIAGE"), codes.MARRIAGE, Object.keys(codes.MARRIAGE)[0]);
+  for (const column of ["SEX", "EDUCATION", "MARRIAGE"]) {
+    // Start on the first documented code (1), not an undocumented 0.
+    fillSelect($(column), codes[column], sortedCodes(codes[column]).find((c) => Number(c) > 0));
+  }
   PAY_STATUS.forEach((column, i) => {
     const select = element("select", { id: column, name: column });
     fillSelect(select, codes[column], 0);

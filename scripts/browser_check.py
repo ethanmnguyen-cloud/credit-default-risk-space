@@ -58,6 +58,12 @@ def check(base_url: str, screenshot: str | None = None) -> None:
         if state != "true":
             raise SystemExit(f"The page did not start: {page.locator('#loading').inner_text()}")
 
+        # 0. The form starts sensibly: codes in natural order, documented defaults.
+        first_status = page.locator("#PAY_0 option").first.get_attribute("value")
+        defaults = {c: page.input_value(f"#{c}") for c in ("SEX", "EDUCATION", "MARRIAGE")}
+        if first_status != "-2" or set(defaults.values()) != {"1"}:
+            problems.append(f"form defaults off: first status {first_status}, defaults {defaults}")
+
         # 1. The browser's own maths, on every held-out client.
         rows = [{c: r[c] for c in columns} for r in cases]
         live = page.evaluate("rows => rows.map(r => window.creditModel.predict(r).probability)", rows)
