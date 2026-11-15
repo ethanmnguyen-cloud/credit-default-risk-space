@@ -41,14 +41,28 @@ def fetch(url: str) -> bytes | None:
         return None
 
 
+# Hugging Face edits HTML as it serves it: it adds a window.huggingface script and
+# social-preview <meta> tags. Remove exactly those before comparing, so any other
+# difference still fails.
+INJECTED = [re.compile(rb"<script>window\.huggingface=.*?</script>", re.S),
+            re.compile(rb'<meta (?:property="og:|name="twitter:)[^>]*>')]
+
+
+def digest(path: str, body: bytes) -> str:
+    if path.endswith(".html"):
+        for pattern in INJECTED:
+            body = pattern.sub(b"", body)
+    return hashlib.sha256(body).hexdigest()
+
+
 def wait_for_files(base: str) -> None:
-    want = {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest() for path in SHIPPED}
+    want = {path: digest(path, (ROOT / path).read_bytes()) for path in SHIPPED}
     deadline = time.time() + WAIT_SECONDS
     while True:
         stamp = int(time.time())
-        stale = [path for path, digest in want.items()
+        stale = [path for path, wanted in want.items()
                  if (body := fetch(f"{base}/{path}?check={stamp}")) is None
-                 or hashlib.sha256(body).hexdigest() != digest]
+                 or digest(path, body) != wanted]
         if not stale:
             print(f"live files match this commit: {', '.join(SHIPPED)}")
             return
