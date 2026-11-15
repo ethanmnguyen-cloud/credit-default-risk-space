@@ -126,7 +126,7 @@ export class CreditModel {
 export function computeFeature(row, spec) {
   if (spec.kind === "ratio") {
     const denominator = row[spec.denominator];
-    if (denominator <= 0) {
+    if (denominator < 0) {
       return spec.when_not_positive == null ? NaN : Number(spec.when_not_positive);
     }
     const value = row[spec.numerator] / denominator;
